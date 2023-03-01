@@ -1,15 +1,14 @@
-# Create vpc instance
-resource "aws_vpc" "skillup-malcedo-terraform-vpc" {
-  cidr_block = "11.0.0.0/16"
+#create VPC
+resource "aws_vpc" "create_vpc" {
+  cidr_block       = var.vpc.cidr_block
+  instance_tenancy = "default"
 
-
-  tags = {
-    Name = "skillup-malcedo-terraform-vpc"
-    GBL_CLASS_0 = "Service"
-    GBL_CLASS_1 = "Test"
-  }
+  tags = merge(var.req_tags,
+    {
+      Name = var.vpc.vpc_name
+    }
+  )
 }
-
 
 #create internet gateway
 resource "aws_internet_gateway" "create_igw" {
@@ -127,4 +126,3 @@ resource "aws_vpc_endpoint" "create_s3endpoint" {
     }
   )
 }
-
