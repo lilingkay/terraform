@@ -46,7 +46,7 @@ resource "aws_launch_configuration" "create_launchconfig" {
   key_name                    = var.asg.launchconfig_key_name
   associate_public_ip_address = false
   security_groups             = [aws_security_group.create_websg.id]
-  user_data                   = file("./modules/asg_module/userdata.tpl")
+  user_data                   = file("./modules/asg/userdata.tpl")
 }
 
 #create auto scaling group

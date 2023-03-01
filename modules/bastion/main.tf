@@ -39,7 +39,7 @@ resource "aws_instance" "create_ec2_bastion" {
   key_name                    = var.bastion.key_name
   vpc_security_group_ids      = [aws_security_group.create_bastionsg.id]
   iam_instance_profile        = var.bastion.iam_user
-  user_data                   = file("./modules/bastion_module/userdata.tpl")
+  user_data                   = file("./modules/bastion/userdata.tpl")
 
 
   tags = merge(var.req_tags, {

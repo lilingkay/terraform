@@ -9,13 +9,13 @@ vpc = {
   igw_name   = "skillup-malcedo-igw"
 
   #VPC subnets
-  subnet_pub_name = ["skillup-malcedo-pub-1", "skillup-malcedo-pub-2"]
-  pub_av_zone     = ["ap-southeast-1a", "ap-southeast-1c"]
-  pub_cidr        = ["11.0.1.0/24", "11.0.2.0/24"]
+  subnet_public_name = ["skillup-malcedo-public-1", "skillup-malcedo-public-2"]
+  public_av_zone     = ["ap-southeast-1a", "ap-southeast-1c"]
+  public_cidr        = ["11.0.1.0/24", "11.0.2.0/24"]
 
-  subnet_priv_name = ["skillup-malcedo-priv-1", "skillup-malcedo-priv-2"]
-  priv_av_zone     = ["ap-southeast-1a", "ap-southeast-1c"]
-  priv_cidr        = ["11.0.3.0/24", "11.0.4.0/24"]
+  subnet_private_name = ["skillup-malcedo-private-1", "skillup-malcedo-private-2"]
+  private_av_zone     = ["ap-southeast-1a", "ap-southeast-1c"]
+  private_cidr        = ["11.0.3.0/24", "11.0.4.0/24"]
 
   subnet_db_name = ["skillup-malcedo-db-1", "skillup-malcedo-db-2"]
   db_av_zone     = ["ap-southeast-1a", "ap-southeast-1c"]
@@ -28,8 +28,8 @@ vpc = {
   elastic_ip_allocation_id = "eipalloc-0a367f676eb040dc9"
 
   #Route table details and endpoint
-  pubrt_name       = "skillup-malcedo-pub-rt"
-  privrt_name      = "skillup-malcedo-priv-rt"
+  public_rt_name       = "skillup-malcedo-public-rt"
+  private_rt_name      = "skillup-malcedo-private-rt"
   s3_endpoint_name = "skillup-malcedo-s3-endpoint"
 }
 
@@ -37,7 +37,7 @@ vpc = {
 bastion = {
   #Security group details
   bastion_sg_name        = "skillup-malcedo-bastion-sg"
-  bastion_sg_description = "SG for skillup-malcedo bastion"
+  bastion_sg_description = "security group for skillup-malcedo bastion access"
 
   #Input Bastion details and specs
   bastion_name      = "skillup-malcedo-bastion"
@@ -61,7 +61,7 @@ bastion_sg_rule_tcp_6522 = {
 alb = {
   #Security group details
   alb_sg_name        = "skillup-malcedo-alb-sg"
-  alb_sg_description = "SG for malcedo alb"
+  alb_sg_description = "security group for malcedo alb"
 
   #Applciation Load Balancer
   alb_name = "skillup-malcedo-alb"
@@ -98,7 +98,7 @@ alb_sg_rule_tcp_80 = {
 asg = {
   #Security group details
   asg_sg_name        = "skillup-malcedo-asg-sg"
-  asg_sg_description = "SG for malcedo asg"
+  asg_sg_description = "security group for malcedo asg"
 
   #Launch configuration details
   launchconfig_name          = "skillup-malcedo-lc"
