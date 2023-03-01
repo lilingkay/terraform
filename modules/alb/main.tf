@@ -1,4 +1,36 @@
-create load balancer
+#create alb security group
+resource "aws_security_group" "create_albsg" {
+
+  name        = var.alb.alb_sg_name
+  description = var.alb.alb_sg_description
+  vpc_id      = var.vpc_id_pass
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = merge(var.req_tags, {
+    Name = var.alb.alb_sg_name
+    }
+  )
+}
+
+#create sg inbound rule
+resource "aws_security_group_rule" "create_sg_rule" {
+  count             = "${length(var.sg_rule.inbound_ip)}"
+  type              = "ingress"
+  from_port         = var.sg_rule.from_port
+  to_port           = var.sg_rule.to_port
+  protocol          = var.sg_rule.protocol_type
+  cidr_blocks       = var.sg_rule.inbound_ip
+  security_group_id = aws_security_group.create_albsg.id
+}
+
+
+#create load balancer
 resource "aws_lb" "create_alb" {
   name               = var.alb.alb_name
   internal           = false
