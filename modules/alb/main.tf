@@ -1,9 +1,9 @@
-#create security group for alb 
-resource "aws_security_group" "create_albsg" {
+#security group for alb 
+resource "aws_security_group" "create_alb_sg" {
 
   name        = var.alb.alb_sg_name
   description = var.alb.alb_sg_description
-  vpc_id      = var.vpc_id_pass
+  vpc_id      = var.vpc_id_all
 
   egress {
     from_port   = 0
@@ -12,13 +12,13 @@ resource "aws_security_group" "create_albsg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(var.req_tags, {
+  tags = merge(var.skillup_required_tags, {
     Name = var.alb.alb_sg_name
     }
   )
 }
 
-#create sg for inbound rule
+#sg for ingress
 resource "aws_security_group_rule" "create_sg_rule" {
   count             = "${length(var.sg_rule.inbound_ip)}"
   type              = "ingress"
@@ -26,31 +26,31 @@ resource "aws_security_group_rule" "create_sg_rule" {
   to_port           = var.sg_rule.to_port
   protocol          = var.sg_rule.protocol_type
   cidr_blocks       = var.sg_rule.inbound_ip
-  security_group_id = aws_security_group.create_albsg.id
+  security_group_id = aws_security_group.create_alb_sg.id
 }
 
 
-#create load balancer
+#load balancer
 resource "aws_lb" "create_alb" {
   name               = var.alb.alb_name
   internal           = false
   load_balancer_type = var.alb.alb_type
-  security_groups    = [aws_security_group.create_albsg.id]
+  security_groups    = [aws_security_group.create_alb_sg.id]
   subnets            = var.all_public_subnet
 
-  tags = merge(var.req_tags, {
+  tags = merge(var.skillup_required_tags, {
     Name = var.alb.alb_name
     }
   )
 }
 
- #create target group
+ #target group
 resource "aws_lb_target_group" "create_tg" {
   name        = var.alb.tg_name
   target_type = var.alb.target_type
   port        = var.alb.tg_port
   protocol    = var.alb.tg_protocol
-  vpc_id      = var.vpc_id_pass
+  vpc_id      = var.vpc_id_all
 
   health_check {
     path                = var.alb.hc_path
@@ -63,7 +63,7 @@ resource "aws_lb_target_group" "create_tg" {
     matcher             = var.alb.hc_matcher
   }
 
-  tags = merge(var.req_tags, {
+  tags = merge(var.skillup_required_tags, {
     Name = var.alb.tg_name
     }
   )

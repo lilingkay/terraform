@@ -17,15 +17,15 @@ variable "asg" {
 }
 
 
-variable "vpc_id_pass" {
+variable "vpc_id_all" {
  type = string
 }
 
-variable "albsg_id_pass" {
+variable "alb_sg_id_all" {
  type = string
 }
 
-variable "bastionsg_id_pass" {
+variable "bastion_sg_id_all" {
  type = string
 }
 
@@ -38,7 +38,7 @@ variable "target_group_arns" {
 }
 
 
-variable "req_tags" {
+variable "skillup_required_tags" {
   description = "Skillup required tags"
   type        = map(string)
   default = {
@@ -47,7 +47,7 @@ variable "req_tags" {
   }
 }
 
-variable "web_http_rule" {
+variable "webserver_http_rule" {
   type = object({
   from_port = string
   to_port = string
@@ -55,7 +55,7 @@ variable "web_http_rule" {
   })
 }
 
-variable "web_ssh_rule" {
+variable "webserver_ssh_rule" {
   type = object({
   from_port = string
   to_port = string

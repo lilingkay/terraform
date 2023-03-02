@@ -30,7 +30,7 @@ variable "sg_rule" {
    })
 }
 
-variable "vpc_id_pass" {
+variable "vpc_id_all" {
  type = string
 }
 
@@ -39,7 +39,7 @@ variable "all_public_subnet" {
 }
 
 
-variable "req_tags" {
+variable "skillup_required_tags" {
   description = "Skillup required tags"
   type        = map(string)
   default = {

@@ -2,7 +2,7 @@ output "vpc_id" {
 value = aws_vpc.create_vpc.id
 }
 
-output "subnet_id_out" {
+output "subnet_id_all" {
 value = aws_subnet.create_public_sub[1].id
 }
 

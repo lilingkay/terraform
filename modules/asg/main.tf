@@ -1,8 +1,8 @@
-resource "aws_security_group" "create_websg" {
+resource "aws_security_group" "create_webserver_sg" {
 
   name        = var.asg.asg_sg_name
   description = var.asg.asg_sg_description
-  vpc_id      = var.vpc_id_pass
+  vpc_id      = var.vpc_id_all
 
   egress {
     from_port   = 0
@@ -11,29 +11,29 @@ resource "aws_security_group" "create_websg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(var.req_tags, {
+  tags = merge(var.skillup_required_tags, {
     Name = var.asg.asg_sg_name
     }
   )
 }
 
-#security group web rule
-resource "aws_security_group_rule" "create_web_rule_http" {
+#security group web server rule
+resource "aws_security_group_rule" "create_webserver_rule_http" {
   type                     = "ingress"
-  from_port                = var.web_http_rule.from_port
-  to_port                  = var.web_http_rule.to_port
-  protocol                 = var.web_http_rule.protocol
-  source_security_group_id = var.albsg_id_pass
-  security_group_id        = aws_security_group.create_websg.id
+  from_port                = var.webserver_http_rule.from_port
+  to_port                  = var.webserver_http_rule.to_port
+  protocol                 = var.webserver_http_rule.protocol
+  source_security_group_id = var.alb_sg_id_all
+  security_group_id        = aws_security_group.create_webserver_sg.id
 }
 
-resource "aws_security_group_rule" "create_web_rule_ssh" {
+resource "aws_security_group_rule" "create_webserver_rule_ssh" {
   type                     = "ingress"
-  from_port                = var.web_ssh_rule.from_port
-  to_port                  = var.web_ssh_rule.to_port
-  protocol                 = var.web_ssh_rule.protocol
-  source_security_group_id = var.bastionsg_id_pass
-  security_group_id        = aws_security_group.create_websg.id
+  from_port                = var.webserver_ssh_rule.from_port
+  to_port                  = var.webserver_ssh_rule.to_port
+  protocol                 = var.webserver_ssh_rule.protocol
+  source_security_group_id = var.bastion_sg_id_all
+  security_group_id        = aws_security_group.create_webserver_sg.id
 }
 
 
@@ -45,7 +45,7 @@ resource "aws_launch_configuration" "create_launchconfig" {
   iam_instance_profile        = var.asg.launchconfig_iam_user
   key_name                    = var.asg.launchconfig_key_name
   associate_public_ip_address = false
-  security_groups             = [aws_security_group.create_websg.id]
+  security_groups             = [aws_security_group.create_webserver_sg.id]
   user_data                   = file("./modules/asg/userdata.tpl")
 }
 
@@ -68,14 +68,5 @@ resource "aws_autoscaling_group" "create_asg" {
     propagate_at_launch = true
   }
 
-  tag {
-    key                 = "GBL_CLASS_0"
-    value               = "SERVICE"
-    propagate_at_launch = true
   }
-  tag {
-    key                 = "GBL_CLASS_1"
-    value               = "TEST"
-    propagate_at_launch = true
-  }
-}
+

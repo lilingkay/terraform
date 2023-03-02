@@ -2,28 +2,30 @@ variable "region" {
   type = string
 }
 
+#vpc variables
 variable "vpc" {
   type = object({
     cidr_block               = string
     vpc_name                 = string
     igw_name                 = string
-    public_av_zone              = list(string)
-    private_av_zone             = list(string)
+    public_av_zone           = list(string)
+    private_av_zone          = list(string)
     db_av_zone               = list(string)
-    public_cidr                 = list(string)
-    private_cidr                = list(string)
+    public_cidr              = list(string)
+    private_cidr             = list(string)
     db_cidr                  = list(string)
-    subnet_public_name          = list(string)
-    subnet_private_name         = list(string)
+    subnet_public_name       = list(string)
+    subnet_private_name      = list(string)
     subnet_db_name           = list(string)
     nat_name                 = string
     elastic_ip_allocation_id = string
-    public_rt_name               = string
-    private_rt_name              = string
+    public_rt_name           = string
+    private_rt_name          = string
     s3_endpoint_name         = string
   })
 }
 
+#bastion variable
 variable "bastion" {
   type = object({
     bastion_sg_name        = string
@@ -46,6 +48,7 @@ variable "bastion_sg_rule_tcp_6522" {
   })
 }
 
+#alb variable
 variable "alb" {
   type = object({
     alb_sg_name            = string
@@ -69,6 +72,8 @@ variable "alb" {
     listener_type          = string
   })
 }
+
+#asgvariable
 variable "alb_sg_rule_tcp_80" {
   type = object({
     from_port     = string
@@ -96,7 +101,7 @@ variable "asg" {
   })
 }
 
-variable "web_sg_rule_http_80" {
+variable "webserver_sg_rule_http_80" {
   type = object({
     from_port = string
     to_port   = string
@@ -104,7 +109,7 @@ variable "web_sg_rule_http_80" {
   })
 }
 
-variable "web_sg_rule_ssh_6522" {
+variable "webserver_sg_rule_ssh_6522" {
   type = object({
     from_port = string
     to_port   = string

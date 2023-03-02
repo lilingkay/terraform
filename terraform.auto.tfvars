@@ -28,8 +28,8 @@ vpc = {
   elastic_ip_allocation_id = "eipalloc-0a367f676eb040dc9"
 
   #Route table details and endpoint
-  public_rt_name       = "skillup-malcedo-public-rt"
-  private_rt_name      = "skillup-malcedo-private-rt"
+  public_rt_name   = "skillup-malcedo-public-rt"
+  private_rt_name  = "skillup-malcedo-private-rt"
   s3_endpoint_name = "skillup-malcedo-s3-endpoint"
 }
 
@@ -117,14 +117,14 @@ asg = {
 
 }
 
-#Input WEB SG rule
-web_sg_rule_http_80 = {
+#Input WEB Server SG rule
+webserver_sg_rule_http_80 = {
   from_port = "80"
   to_port   = "80"
   protocol  = "tcp"
 }
 
-web_sg_rule_ssh_6522 = {
+webserver_sg_rule_ssh_6522 = {
   from_port = "6522"
   to_port   = "6522"
   protocol  = "tcp"

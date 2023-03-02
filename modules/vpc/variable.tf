@@ -22,7 +22,7 @@ variable "vpc" {
 
 
 
-variable "req_tags" {
+variable "skillup_required_tags" {
   description = "Skillup required tags"
   type        = map(string)
   default = {

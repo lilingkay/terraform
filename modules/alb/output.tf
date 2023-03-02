@@ -1,5 +1,5 @@
 output "alb_sg_id" {
-value = aws_security_group.create_albsg.id
+value = aws_security_group.create_alb_sg.id
 }
 
 output "tg_arns" {
