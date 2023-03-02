@@ -1,4 +1,4 @@
-#create alb security group
+#create security group for alb 
 resource "aws_security_group" "create_albsg" {
 
   name        = var.alb.alb_sg_name
@@ -18,7 +18,7 @@ resource "aws_security_group" "create_albsg" {
   )
 }
 
-#create sg inbound rule
+#create sg for inbound rule
 resource "aws_security_group_rule" "create_sg_rule" {
   count             = "${length(var.sg_rule.inbound_ip)}"
   type              = "ingress"

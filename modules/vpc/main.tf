@@ -1,4 +1,4 @@
-#create VPC
+#VPCcreation
 resource "aws_vpc" "create_vpc" {
   cidr_block       = var.vpc.cidr_block
   instance_tenancy = "default"
@@ -10,7 +10,7 @@ resource "aws_vpc" "create_vpc" {
   )
 }
 
-#create internet gateway
+#internet gateway
 resource "aws_internet_gateway" "create_igw" {
   vpc_id = aws_vpc.create_vpc.id
 
@@ -20,7 +20,7 @@ resource "aws_internet_gateway" "create_igw" {
   )
 }
 
-#create vpc public subnets
+#vpc public subnets
 resource "aws_subnet" "create_public_sub" {
   count             = "${length(var.vpc.public_cidr)}"
   vpc_id            = aws_vpc.create_vpc.id
@@ -33,7 +33,7 @@ resource "aws_subnet" "create_public_sub" {
   )
 }
 
-#create vpc private subnets
+#vpc private subnets
 resource "aws_subnet" "create_private_sub" {
   count             = "${length(var.vpc.private_cidr)}"
   vpc_id            = aws_vpc.create_vpc.id
@@ -46,7 +46,7 @@ resource "aws_subnet" "create_private_sub" {
   )
 }
 
-#create vpc db subnets
+#vpc db subnets
 resource "aws_subnet" "create_db_sub" {
   count             = "${length(var.vpc.db_cidr)}"
   vpc_id            = aws_vpc.create_vpc.id
@@ -59,7 +59,7 @@ resource "aws_subnet" "create_db_sub" {
   )
 }
 
-#create nat gateway
+#nat gateway
 resource "aws_nat_gateway" "create_nat" {
   allocation_id     = var.vpc.elastic_ip_allocation_id
   subnet_id         = aws_subnet.create_public_sub[0].id
@@ -71,7 +71,7 @@ resource "aws_nat_gateway" "create_nat" {
   )
 }
 
- #create route tables
+ #route tables
 resource "aws_route_table" "create_public_rt" {
   vpc_id = aws_vpc.create_vpc.id
 
@@ -114,7 +114,7 @@ resource "aws_route_table_association" "private_rt_assoc" {
   route_table_id = aws_route_table.create_private_rt.id
 }
 
-#create VPC endpoint
+#VPC endpoint
 resource "aws_vpc_endpoint" "create_s3endpoint" {
   vpc_id            = aws_vpc.create_vpc.id
   service_name      = "com.amazonaws.ap-southeast-1.s3"

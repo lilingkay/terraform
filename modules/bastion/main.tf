@@ -1,4 +1,4 @@
-#create bastion security group
+#bastion security group
 resource "aws_security_group" "create_bastionsg" {
 
   name        = var.bastion.bastion_sg_name
@@ -18,7 +18,7 @@ resource "aws_security_group" "create_bastionsg" {
   )
 }
 
-#create sg inbound rule
+#sg inbound rule
 resource "aws_security_group_rule" "create_sg_rule" {
   count             = "${length(var.sg_rule.inbound_ip)}"
   type              = "ingress"
@@ -29,7 +29,7 @@ resource "aws_security_group_rule" "create_sg_rule" {
   security_group_id = aws_security_group.create_bastionsg.id
 }
 
-#create ec2 bastion instance
+#ec2 bastion instance
 resource "aws_instance" "create_ec2_bastion" {
   ami                         = var.bastion.ami_id
   subnet_id                   = var.subnet_id_pass

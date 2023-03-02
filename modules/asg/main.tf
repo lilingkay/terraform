@@ -37,7 +37,7 @@ resource "aws_security_group_rule" "create_web_rule_ssh" {
 }
 
 
-#create launch configuration
+#launch configuration
 resource "aws_launch_configuration" "create_launchconfig" {
   name                        = var.asg.launchconfig_name
   image_id                    = var.asg.launchconfig_ami_id
@@ -49,7 +49,7 @@ resource "aws_launch_configuration" "create_launchconfig" {
   user_data                   = file("./modules/asg/userdata.tpl")
 }
 
-#create auto scaling group
+#auto scaling group
 resource "aws_autoscaling_group" "create_asg" {
   name                      = var.asg.asg_name
   max_size                  = var.asg.asg_max_size
